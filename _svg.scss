@@ -27,6 +27,7 @@ $icon-google: ('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/
 }
 
 @mixin inline-svg-multi($name) {
-    background: transparent url(nth($name, 1)) no-repeat 50% 50%;
+    $svg: nth($name, 1);
+    background: transparent url($svg) no-repeat 50% 50%;
     background-size: 100%;
 }
