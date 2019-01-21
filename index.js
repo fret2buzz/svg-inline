@@ -14,10 +14,9 @@ fs.readFile('./template.mustache', 'utf8', function (err, data) {
 
 var symbols = /[\r\n%#()<>?\[\\\]^`{|}]/g;
 var svgFileContents = '';
-var svg = '';
 
 function encodeSVG(data) {
-    data = data.replace(/"/g, '\'');
+    data = data.replace( /'/g, '"' );
     data = data.replace(/>\s{1,}</g, "><");
     data = data.replace(/\s{2,}/g, " ");
 
@@ -35,14 +34,13 @@ fs.readdirSync(svgFolder).forEach(function(file, index) {
         // console.log(file, itemsProcessed);
         view.svgs[index] = {};
         view.svgs[index].name = file.replace('.svg', '');
-        view.svgs[index].width = data.match(/width=\"(\d+)\"/)[1] + "px";
-        view.svgs[index].height = data.match(/height=\"(\d+)\"/)[1] + "px";
+        view.svgs[index].width = data.match(/width=\"(\d+)\"/)[1];
+        view.svgs[index].height = data.match(/height=\"(\d+)\"/)[1];
         if (data.split('<path').length-1 === 1) {
-            svg = data.replace(/fill=\"(.+?)\"/, 'fill="$color"');
+            view.svgs[index].d = data.match(/d=\"(.+?)\"/)[1];
         } else {
-            svg = data;
+            view.svgs[index].inline = 'data:image/svg+xml;charset=utf8,' + encodeSVG(data);
         }
-        view.svgs[index].inline = 'data:image/svg+xml;charset=utf8,' + encodeSVG(svg);
 
         itemsProcessed++;
 

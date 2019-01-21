@@ -6,10 +6,10 @@ https://codepen.io/fret2buzz/pen/VgZPaV?editors=0110
 
 ## Usage
 
-* Put svg files into `svg-giles` folder
+* Put svg files into `svg-files` folder
 * Run `node index.js`
 * Include `_svg.scss` into your code
-* Use `inline-svg` for monochrome icons
-* Use `inline-svg-colors` for multicolor icons
+* Use `inline-svg-mono` for monochrome icons
+* Use `inline-svg-multi` for multicolor icons
 
 

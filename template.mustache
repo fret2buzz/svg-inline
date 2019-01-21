@@ -12,32 +12,23 @@
 //
 // Styleguide 1
 {{#svgs}}
-${{{name}}}: "{{{inline}}}" {{width}} {{height}};
+${{{name}}}: ('{{{inline}}}', '{{d}}', {{width}}, {{height}});
 {{/svgs}}
 
-/// Replace `$search` with `$replace` in `$string`
-/// @author Hugo Giraudel
-/// @param {String} $string - Initial string
-/// @param {String} $search - Substring to replace
-/// @param {String} $replace ('') - New value
-/// @return {String} - Updated string
-@function str-replace($string, $search, $replace: '') {
-  $index: str-index($string, $search);
-
-  @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
-  }
-
-  @return $string;
+@function create-svg($path, $fill-color, $w, $h) {
+    $fill-color: str-slice(inspect($fill-color), 2);
+    $fill-color: '%23' + $fill-color;
+    $icon: 'data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="#{$w}" height="#{$h}"%3E%3Cpath fill="#{$fill-color}" d="#{$path}"/%3E%3C/svg%3E%0A';
+    @return $icon;
 }
 
-@mixin inline-svg($name, $fill-color: #000) {
-    $svg: str-replace(nth($name, 1), '$color', '#{$fill-color}');
+@mixin inline-svg-mono($name, $fill-color: #000) {
+    $svg: create-svg(nth($name, 2), $fill-color, nth($name, 3), nth($name, 4));
     background: transparent url($svg) no-repeat 50% 50%;
     background-size: 100%;
 }
 
-@mixin inline-svg-colors($name) {
+@mixin inline-svg-multi($name) {
     background: transparent url(nth($name, 1)) no-repeat 50% 50%;
     background-size: 100%;
 }

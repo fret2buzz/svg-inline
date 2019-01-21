@@ -1,8 +1,8 @@
 // Icons
 //
 // Markup:
-// <div class="kss-icon-item"><span><img src="images/icon-arrow.svg"></span>$icon-arrow<br>32px * 32px</div>
-// <div class="kss-icon-item"><span><img src="images/icon-google.svg"></span>$icon-google<br>32px * 32px</div>
+// <div class="kss-icon-item"><span><img src="images/icon-arrow.svg"></span>$icon-arrow<br>32 * 32</div>
+// <div class="kss-icon-item"><span><img src="images/icon-google.svg"></span>$icon-google<br>32 * 32</div>
 // <style type="text/css">
 // .kss-icon-item {display: inline-block; vertical-align: top; padding: 0 0 15px; width: 24%; text-align: center;}
 // .kss-icon-item span {display: block; margin: 0 0 5px;}
@@ -10,32 +10,23 @@
 // </style>
 //
 // Styleguide 1
-$icon-arrow: "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath fill='$color' d='M3.91835 9.00005c-.23516 0-.47042.09011-.64959.27046-.35835.3607-.35835.947 0 1.30771l12.07192 12.15099c.17917.18035.40323.27077.6496.27077.22418 0 .47008-.09042.64926-.27077l12.07192-12.15099c.38096-.3607.38088-.947.0223-1.3077-.35834-.36071-.9405-.36071-1.29885 0l-11.42233 11.5202L4.56794 9.27052c-.17917-.18036-.41442-.27047-.64959-.27047z'/%3E%3C/svg%3E%0A" 32px 32px;
-$icon-google: "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 32 32' width='32' height='32'%3E%3Cpath d='M8.2054 18.9207l-.9746 3.6385-3.5623.0754C2.6039 20.66 2 18.4008 2 16c0-2.3215.5646-4.5108 1.5654-6.4385h.0007l3.1715.5815 1.3893 3.1524A8.322 8.322 0 0 0 7.6776 16c.0001 1.0277.1863 2.0123.5278 2.9207z' fill='%23fbbb00'/%3E%3Cpath d='M29.7554 13.3846C29.9162 14.2316 30 15.1061 30 16c0 1.0023-.1054 1.98-.3061 2.9231-.6816 3.2092-2.4623 6.0115-4.9292 7.9946l-.0008-.0008-3.9946-.2038-.5654-3.5292c1.637-.96 2.9162-2.4623 3.59-4.2608h-7.4861v-5.5385h7.5954z' fill='%23518ef8'/%3E%3Cpath d='M24.7638 26.917l.0008.0007C22.3654 28.8461 19.3176 30 16 30c-5.3315 0-9.967-2.98-12.3315-7.3654l4.5369-3.7138c1.1823 3.1554 4.2261 5.4015 7.7946 5.4015 1.5338 0 2.9708-.4146 4.2038-1.1384z' fill='%2328b446'/%3E%3Cpath d='M24.9362 5.223l-4.5354 3.7131C19.1246 8.1385 17.616 7.6777 16 7.6777c-3.6492 0-6.75 2.3492-7.873 5.6177L3.566 9.5615h-.0007C5.8954 5.0692 10.5892 2 16 2c3.397 0 6.5115 1.21 8.9362 3.223z' fill='%23f14336'/%3E%3C/svg%3E%0A" 32px 32px;
+$icon-arrow: ('', 'M3.91835 9.00005c-.23516 0-.47042.09011-.64959.27046-.35835.3607-.35835.947 0 1.30771l12.07192 12.15099c.17917.18035.40323.27077.6496.27077.22418 0 .47008-.09042.64926-.27077l12.07192-12.15099c.38096-.3607.38088-.947.0223-1.3077-.35834-.36071-.9405-.36071-1.29885 0l-11.42233 11.5202L4.56794 9.27052c-.17917-.18036-.41442-.27047-.64959-.27047z', 32, 32);
+$icon-google: ('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 32 32" width="32" height="32"%3E%3Cpath d="M8.2054 18.9207l-.9746 3.6385-3.5623.0754C2.6039 20.66 2 18.4008 2 16c0-2.3215.5646-4.5108 1.5654-6.4385h.0007l3.1715.5815 1.3893 3.1524A8.322 8.322 0 0 0 7.6776 16c.0001 1.0277.1863 2.0123.5278 2.9207z" fill="%23fbbb00"/%3E%3Cpath d="M29.7554 13.3846C29.9162 14.2316 30 15.1061 30 16c0 1.0023-.1054 1.98-.3061 2.9231-.6816 3.2092-2.4623 6.0115-4.9292 7.9946l-.0008-.0008-3.9946-.2038-.5654-3.5292c1.637-.96 2.9162-2.4623 3.59-4.2608h-7.4861v-5.5385h7.5954z" fill="%23518ef8"/%3E%3Cpath d="M24.7638 26.917l.0008.0007C22.3654 28.8461 19.3176 30 16 30c-5.3315 0-9.967-2.98-12.3315-7.3654l4.5369-3.7138c1.1823 3.1554 4.2261 5.4015 7.7946 5.4015 1.5338 0 2.9708-.4146 4.2038-1.1384z" fill="%2328b446"/%3E%3Cpath d="M24.9362 5.223l-4.5354 3.7131C19.1246 8.1385 17.616 7.6777 16 7.6777c-3.6492 0-6.75 2.3492-7.873 5.6177L3.566 9.5615h-.0007C5.8954 5.0692 10.5892 2 16 2c3.397 0 6.5115 1.21 8.9362 3.223z" fill="%23f14336"/%3E%3C/svg%3E%0A', '', 32, 32);
 
-/// Replace `$search` with `$replace` in `$string`
-/// @author Hugo Giraudel
-/// @param {String} $string - Initial string
-/// @param {String} $search - Substring to replace
-/// @param {String} $replace ('') - New value
-/// @return {String} - Updated string
-@function str-replace($string, $search, $replace: '') {
-  $index: str-index($string, $search);
-
-  @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
-  }
-
-  @return $string;
+@function create-svg($path, $fill-color, $w, $h) {
+    $fill-color: str-slice(inspect($fill-color), 2);
+    $fill-color: '%23' + $fill-color;
+    $icon: 'data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="#{$w}" height="#{$h}"%3E%3Cpath fill="#{$fill-color}" d="#{$path}"/%3E%3C/svg%3E%0A';
+    @return $icon;
 }
 
-@mixin inline-svg($name, $fill-color: #000) {
-    $svg: str-replace(nth($name, 1), '$color', '#{$fill-color}');
+@mixin inline-svg-mono($name, $fill-color: #000) {
+    $svg: create-svg(nth($name, 2), $fill-color, nth($name, 3), nth($name, 4));
     background: transparent url($svg) no-repeat 50% 50%;
     background-size: 100%;
 }
 
-@mixin inline-svg-colors($name) {
+@mixin inline-svg-multi($name) {
     background: transparent url(nth($name, 1)) no-repeat 50% 50%;
     background-size: 100%;
 }
