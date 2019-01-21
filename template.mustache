@@ -1,0 +1,43 @@
+// Icons
+//
+// Markup:
+{{#svgs}}
+// <div class="kss-icon-item"><span><img src="images/{{{name}}}.svg"></span>${{{name}}}<br>{{{width}}} * {{{height}}}</div>
+{{/svgs}}
+// <style type="text/css">
+// .kss-icon-item {display: inline-block; vertical-align: top; padding: 0 0 15px; width: 24%; text-align: center;}
+// .kss-icon-item span {display: block; margin: 0 0 5px;}
+// .kss-icon-item img {width: 64px; height: auto; background: #cccccc; vertical-align: top;}
+// </style>
+//
+// Styleguide 1
+{{#svgs}}
+${{{name}}}: "{{{inline}}}" {{width}} {{height}};
+{{/svgs}}
+
+/// Replace `$search` with `$replace` in `$string`
+/// @author Hugo Giraudel
+/// @param {String} $string - Initial string
+/// @param {String} $search - Substring to replace
+/// @param {String} $replace ('') - New value
+/// @return {String} - Updated string
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+
+@mixin inline-svg($name, $fill-color: #000) {
+    $svg: str-replace(nth($name, 1), '$color', '#{$fill-color}');
+    background: transparent url($svg) no-repeat 50% 50%;
+    background-size: 100%;
+}
+
+@mixin inline-svg-colors($name) {
+    background: transparent url(nth($name, 1)) no-repeat 50% 50%;
+    background-size: 100%;
+}
