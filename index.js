@@ -1,12 +1,11 @@
-const svgFolder = './svg-files/';
-const scssFilePath = './_svg.scss';
 const fs = require('fs');
 const mustache = require('mustache');
+const config = require('./config.json');
 
 var view = {"svgs": []};
 var template = '';
 
-fs.readFile('./template.mustache', 'utf8', function (err, data) {
+fs.readFile(config.template, 'utf8', function (err, data) {
     if (err) {
         return console.log(err);
     }
@@ -29,18 +28,18 @@ function getFilesize(filename) {
     return fileSize;
 }
 
-var filesLength = fs.readdirSync(svgFolder).length;
+var filesLength = fs.readdirSync(config.svgFolder).length;
 var itemsProcessed = 0;
 
-fs.readdirSync(svgFolder).forEach(function(file, index) {
-    fs.readFile(svgFolder + file, 'utf8', function (err, data) {
+fs.readdirSync(config.svgFolder).forEach(function(file, index) {
+    fs.readFile(config.svgFolder + file, 'utf8', function (err, data) {
         if (err) {
             return console.log(err);
         }
-        var size = getFilesize(svgFolder + file);
+        var size = getFilesize(config.svgFolder + file);
         var sizeKb = size + ' Kb';
 
-        if(size < 10) {
+        if(size < config.size) {
             var item = {};
             item.name = file.replace('.svg', '');
             item.width = data.match(/width=\"(\d+)\"/)[1];
@@ -62,12 +61,12 @@ fs.readdirSync(svgFolder).forEach(function(file, index) {
         if(itemsProcessed === filesLength) {
             console.log('Total: ', itemsProcessed);
             svgFileContents = mustache.render(template, view);
-            fs.writeFile(scssFilePath, svgFileContents, function(err) {
+            fs.writeFile(config.scssFilePath, svgFileContents, function(err) {
                 if(err) {
                     return console.log(err);
                 }
 
-                console.log('The file ' + '\x1b[32m' + scssFilePath + '\x1b[0m' + ' was saved!');
+                console.log('The file was saved!');
             });
         }
     });

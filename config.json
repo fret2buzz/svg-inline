@@ -1,0 +1,6 @@
+{
+    "svgFolder": "./svg-files/",
+    "scssFilePath": "./_svg.scss",
+    "template": "./template.mustache",
+    "size": 10
+}
