@@ -1,4 +1,5 @@
 const svgFolder = './svg-files/';
+const scssFilePath = './_svg.scss';
 const fs = require('fs');
 const mustache = require('mustache');
 
@@ -61,12 +62,12 @@ fs.readdirSync(svgFolder).forEach(function(file, index) {
         if(itemsProcessed === filesLength) {
             console.log('Total: ', itemsProcessed);
             svgFileContents = mustache.render(template, view);
-            fs.writeFile('./_svg.scss', svgFileContents, function(err) {
+            fs.writeFile(scssFilePath, svgFileContents, function(err) {
                 if(err) {
                     return console.log(err);
                 }
 
-                console.log("The file was saved!");
+                console.log('The file ' + '\x1b[32m' + scssFilePath + '\x1b[0m' + ' was saved!');
             });
         }
     });
