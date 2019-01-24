@@ -25,10 +25,7 @@ var filesLength = fs.readdirSync(config.svgFolder).length;
 var itemsProcessed = 0;
 
 fs.readdirSync(config.svgFolder).forEach(function(file, index) {
-    fs.readFile(config.svgFolder + file, 'utf8', function (err, data) {
-        if (err) {
-            return console.log(err);
-        }
+        var data = fs.readFileSync(config.svgFolder + file, 'utf8');
         var size = getFilesize(config.svgFolder + file);
         var sizeKb = size + ' Kb';
 
@@ -52,12 +49,7 @@ fs.readdirSync(config.svgFolder).forEach(function(file, index) {
         itemsProcessed++;
 
         if(itemsProcessed === filesLength) {
-            fs.readFile(config.template, 'utf8', function (err, data) {
-                if (err) {
-                    return console.log(err);
-                }
-                template = data;
-            });
+            template = fs.readFileSync(config.template, 'utf8');
             console.log('Total: ', itemsProcessed);
             svgFileContents = mustache.render(template, view);
             fs.writeFile(config.scssFilePath, svgFileContents, function(err) {
@@ -68,6 +60,5 @@ fs.readdirSync(config.svgFolder).forEach(function(file, index) {
                 console.log('The file was saved!');
             });
         }
-    });
 });
 
