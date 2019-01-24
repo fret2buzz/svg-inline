@@ -5,13 +5,6 @@ const config = require('./config.json');
 var view = {"svgs": []};
 var template = '';
 
-fs.readFile(config.template, 'utf8', function (err, data) {
-    if (err) {
-        return console.log(err);
-    }
-    template = data;
-});
-
 var symbols = /[\r\n%#()<>?\[\\\]^`{|}]/g;
 var svgFileContents = '';
 
@@ -59,6 +52,12 @@ fs.readdirSync(config.svgFolder).forEach(function(file, index) {
         itemsProcessed++;
 
         if(itemsProcessed === filesLength) {
+            fs.readFile(config.template, 'utf8', function (err, data) {
+                if (err) {
+                    return console.log(err);
+                }
+                template = data;
+            });
             console.log('Total: ', itemsProcessed);
             svgFileContents = mustache.render(template, view);
             fs.writeFile(config.scssFilePath, svgFileContents, function(err) {
