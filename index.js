@@ -1,6 +1,7 @@
 const fs = require('fs');
 const mustache = require('mustache');
 const config = require('./config.json');
+const colors = config.colors;
 
 var view = {"svgs": []};
 var template = '';
@@ -30,17 +31,28 @@ fs.readdirSync(config.svgFolder).forEach(function(file, index) {
         var sizeKb = size + ' Kb';
 
         if(size < config.size) {
-            var item = {};
-            item.name = file.replace('.svg', '');
-            item.width = data.match(/width=\"(\d+)\"/)[1];
-            item.height = data.match(/height=\"(\d+)\"/)[1];
-            if (data.split('<path').length-1 === 1) {
-                item.d = data.match(/d=\"(.+?)\"/)[1];
-            } else {
-                item.inline = 'data:image/svg+xml;charset=utf8,' + encodeSVG(data);
-            }
-            view.svgs.push(item);
+            var varName = file.replace('.svg', '');
+            var width = data.match(/width=\"(\d+)\"/)[1];
+            var height = data.match(/height=\"(\d+)\"/)[1];
 
+            if (file.indexOf("-mc.svg") !== -1) {
+                var item = {};
+                item.name = varName;
+                item.width = width;
+                item.height = height;
+                item.inline = 'data:image/svg+xml;charset=utf8,' + encodeSVG(data);
+                view.svgs.push(item);
+            } else {
+                Object.keys(colors).forEach(function(key) {
+                    let item = {};
+                    let svg = data.replace(/fill=\"(.+?)\"/, 'fill="'+colors[key]+'"');
+                    item.name = varName + '-' + key;
+                    item.width = width;
+                    item.height = height;
+                    item.inline = 'data:image/svg+xml;charset=utf8,' + encodeSVG(svg);
+                    view.svgs.push(item);
+                });
+            }
             console.log(file, sizeKb, '\x1b[32m', 'Ok', '\x1b[0m');
         } else {
             console.log(file, sizeKb, '\x1b[31m', 'Skipped', '\x1b[0m');

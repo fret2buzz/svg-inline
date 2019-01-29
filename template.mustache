@@ -12,23 +12,10 @@
 //
 // Styleguide 1
 {{#svgs}}
-${{{name}}}: ('{{{inline}}}', '{{d}}', {{width}}, {{height}});
+${{{name}}}: ('{{{inline}}}', {{width}}, {{height}});
 {{/svgs}}
 
-@function create-svg($path, $fill-color, $w, $h) {
-    $fill-color: str-slice(inspect($fill-color), 2);
-    $fill-color: '%23' + $fill-color;
-    $icon: 'data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="#{$w}" height="#{$h}"%3E%3Cpath fill="#{$fill-color}" d="#{$path}"/%3E%3C/svg%3E%0A';
-    @return $icon;
-}
-
-@mixin inline-svg-mono($name, $fill-color: #000) {
-    $svg: create-svg(nth($name, 2), $fill-color, nth($name, 3), nth($name, 4));
-    background: transparent url($svg) no-repeat 50% 50%;
-    background-size: 100%;
-}
-
-@mixin inline-svg-multi($name) {
+@mixin inline-svg($name) {
     $svg: nth($name, 1);
     background: transparent url($svg) no-repeat 50% 50%;
     background-size: 100%;

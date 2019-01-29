@@ -2,5 +2,10 @@
     "svgFolder": "./svg-files/",
     "scssFilePath": "./_svg.scss",
     "template": "./template.mustache",
-    "size": 10
+    "size": 10,
+    "colors": {
+        "red": "#cc3333",
+        "white": "#ffffff",
+        "blue": "#336699"
+    }
 }
