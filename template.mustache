@@ -12,7 +12,7 @@
 //
 // Styleguide 1
 {{#svgs}}
-${{{name}}}: ('{{{inline}}}', '{{d}}', {{width}}, {{height}});
+${{{name}}}: ('{{{inline}}}', {{width}}, {{height}});
 {{/svgs}}
 
 @function create-svg($path, $fill-color, $w, $h) {
@@ -23,7 +23,7 @@ ${{{name}}}: ('{{{inline}}}', '{{d}}', {{width}}, {{height}});
 }
 
 @mixin inline-svg-mono($name, $fill-color: #000) {
-    $svg: create-svg(nth($name, 2), $fill-color, nth($name, 3), nth($name, 4));
+    $svg: create-svg(nth($name, 1), $fill-color, nth($name, 2), nth($name, 3));
     background: transparent url($svg) no-repeat 50% 50%;
     background-size: 100%;
 }

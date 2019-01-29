@@ -35,7 +35,7 @@ fs.readdirSync(config.svgFolder).forEach(function(file, index) {
             item.width = data.match(/width=\"(\d+)\"/)[1];
             item.height = data.match(/height=\"(\d+)\"/)[1];
             if (data.split('<path').length-1 === 1) {
-                item.d = data.match(/d=\"(.+?)\"/)[1];
+                item.inline = data.match(/d=\"(.+?)\"/)[1];
             } else {
                 item.inline = 'data:image/svg+xml;charset=utf8,' + encodeSVG(data);
             }
