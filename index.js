@@ -45,7 +45,7 @@ fs.readdirSync(config.svgFolder).forEach(function(file, index) {
             } else {
                 Object.keys(colors).forEach(function(key) {
                     let item = {};
-                    let svg = data.replace(/fill=\"(.+?)\"/, 'fill="'+colors[key]+'"');
+                    let svg = data.replace(/fill=\"(.+?)\"/g, 'fill="'+colors[key]+'"');
                     item.name = varName + '-' + key;
                     item.width = width;
                     item.height = height;
