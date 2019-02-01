@@ -15,7 +15,11 @@
 ${{{name}}}: ('{{{inline}}}', {{width}}, {{height}});
 {{/svgs}}
 
-@function create-svg($path, $fill-color, $w, $h) {
+@function create-svg($name, $fill-color) {
+    $path: nth($name, 1);
+    $w: nth($name, 2);
+    $h: nth($name, 3);
+
     $fill-color: str-slice(inspect($fill-color), 2);
     $fill-color: '%23' + $fill-color;
     $icon: 'data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="#{$w}" height="#{$h}"%3E%3Cpath fill="#{$fill-color}" d="#{$path}"/%3E%3C/svg%3E%0A';
@@ -23,7 +27,7 @@ ${{{name}}}: ('{{{inline}}}', {{width}}, {{height}});
 }
 
 @mixin inline-svg-mono($name, $fill-color: #000) {
-    $svg: create-svg(nth($name, 1), $fill-color, nth($name, 2), nth($name, 3));
+    $svg: create-svg($name, $fill-color);
     background: transparent url($svg) no-repeat 50% 50%;
     background-size: 100%;
 }
