@@ -11,7 +11,7 @@ const mustache = require('mustache');
 
 var view = { svgs: [] };
 
-var symbols = /[\r\n%#()<>?\[\\\]^`{|}]/g;
+var symbols = /[\r\n%#()<>?\[\\\]^`{|}="]/g;
 
 function encodeSVG(data) {
     data = data.replace(/'/g, '"');

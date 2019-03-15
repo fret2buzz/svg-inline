@@ -22,7 +22,7 @@ ${{{name}}}: ('{{{inline}}}', {{width}}, {{height}});
 
     $fill-color: str-slice(inspect($fill-color), 2);
     $fill-color: '%23' + $fill-color;
-    $icon: 'data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="#{$w}" height="#{$h}"%3E%3Cpath fill="#{$fill-color}" d="#{$path}"/%3E%3C/svg%3E%0A';
+    $icon: 'data:image/svg+xml;charset=utf8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 version%3D%221%22 width%3D%22#{$w}%22 height%3D%22#{$h}%22 viewBox%3D%220 0 #{$w} #{$h}%22%3E%3Cpath fill%3D%22#{$fill-color}%22 d%3D%22#{$path}%22%2F%3E%3C%2Fsvg%3E';
     @return $icon;
 }
 
