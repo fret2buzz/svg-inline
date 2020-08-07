@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 if (!fs.existsSync('./config.json')) {
-    console.log('Please create "config.json"');
+    console.log('\x1b[31m', 'Please create config.json', '\x1b[0m');
     process.exit();
 }
 
@@ -9,7 +9,22 @@ const config = require('./config.json');
 const path = require('path');
 const mustache = require('mustache');
 
+if (!fs.existsSync(config.templateScss)) {
+    console.log('\x1b[31m', 'SCSS template is missing. Please check config.json', '\x1b[0m');
+    process.exit();
+}
+if (!fs.existsSync(config.templateHtml)) {
+    console.log('\x1b[31m', 'HTML template is missing. Please check config.json', '\x1b[0m');
+    process.exit();
+}
+if (!fs.existsSync(config.templateAll)) {
+    console.log('\x1b[31m', 'HTML Template for all icons is missing. Please check config.json', '\x1b[0m');
+    process.exit();
+}
+
 var view = { svgs: [] };
+var folderView = {};
+var allView = { svgs: [] };
 
 var symbols = /[\r\n%#()<>?\[\\\]^`{|}="]/g;
 
@@ -28,14 +43,18 @@ function getFilesize(filename) {
 
 function createVarName(filename) {
     var file = filename.replace('.svg', '');
-
-    if (file.match(/^\d/)) {
-        var newName = file.split('-');
-        newName.shift();
-        return 'svg-' + newName.join('-');
+    var reg = /^(.+?)--/;
+    if (file.indexOf('c__') > 0) {
+        var newName = file.replace('c__', '');
+        return 'svg-' + newName.replace(reg, '');
     } else {
-        return file;
+        return file.replace(reg, '');
     }
+}
+
+function getFolder(filename) {
+    var file = filename.split('--');
+    return file[0];
 }
 
 function getWidthHeight(data) {
@@ -76,39 +95,80 @@ fs.readdirSync(config.svgFolder).forEach(function(file, index) {
         console.log(file, sizeKb, '\x1b[31m', 'Skipped. SVG has no size', '\x1b[0m');
         return false;
     }
-    if (size > config.size) {
-        console.log(file, sizeKb, '\x1b[31m', 'Skipped. File size limit rule', '\x1b[0m');
-        return false;
-    }
     if (uniqueNames.indexOf(uniqueName) !== -1) {
         console.log(file, sizeKb, '\x1b[31m', 'Skipped. Icon already exists', '\x1b[0m');
         return false;
     }
     uniqueNames.push(uniqueName);
 
-    var item = {};
-    item.name = uniqueName;
-    item.width = sizes.width;
-    item.height = sizes.height;
-    item.fileName = file;
-    if (data.split('<path').length - 1 === 1) {
-        item.inline = data.match(/d=\"(.+?)\"/)[1];
+    var itemHtml = {};
+    var itemfolder = getFolder(file);
+    itemHtml.name = uniqueName;
+    itemHtml.width = sizes.width;
+    itemHtml.height = sizes.height;
+    itemHtml.paths = data.match(/\<svg(.+?)\>(.+?)\<\/svg\>/)[2];
+    if(folderView[itemfolder] == undefined) {
+        folderView[itemfolder] = { svgs: [] };
+        folderView[itemfolder].svgs.push(itemHtml);
     } else {
-        item.inline = 'data:image/svg+xml;charset=utf8,' + encodeSVG(data);
+        folderView[itemfolder].svgs.push(itemHtml);
     }
-    view.svgs.push(item);
+    allView.svgs.push(itemHtml);
+
+    if (size > config.size) {
+        console.log(file, sizeKb, '\x1b[31m', 'Not included for scss. File size limit rule', '\x1b[0m');
+        return false;
+    }
+
+    var itemScss = {};
+    itemScss.name = uniqueName;
+    itemScss.width = sizes.width;
+    itemScss.height = sizes.height;
+    itemScss.fileName = file;
+    itemScss.paths = data.match(/\<svg(.+?)\>(.+?)\</)[2];
+    if (data.split('<path').length - 1 === 1) {
+        itemScss.inline = data.match(/d=\"(.+?)\"/)[1];
+    } else {
+        itemScss.inline = 'data:image/svg+xml;charset=utf8,' + encodeSVG(data);
+    }
+    view.svgs.push(itemScss);
     console.log(file, sizeKb, '\x1b[32m', 'Ok', '\x1b[0m');
 
     itemsProcessed++;
 });
 
-var template = fs.readFileSync(config.template, 'utf8');
-console.log('Total: ', itemsProcessed);
-var svgFileContents = mustache.render(template, view);
-fs.writeFile(config.scssFilePath, svgFileContents, function(err) {
+console.log('\n\n-------------\nTotal: ', itemsProcessed, '\n-------------\n\n');
+
+var templateScss = fs.readFileSync(config.templateScss, 'utf8');
+var newScssFile = mustache.render(templateScss, view);
+fs.writeFile(config.scssFilePath, newScssFile, function(err) {
     if (err) {
         return console.log(err);
     }
 
-    console.log('The file was saved!');
+    console.log('Scss file was saved!');
 });
+
+var templateAll = fs.readFileSync(config.templateAll, 'utf8');
+var newAllFile = mustache.render(templateAll, allView);
+fs.writeFile(config.allFilePath, newAllFile, function(err) {
+    if (err) {
+        return console.log(err);
+    }
+
+    console.log('Html file with all icons was saved!');
+});
+
+var templateHtml = fs.readFileSync(config.templateHtml, 'utf8');
+for (const [key, value] of Object.entries(folderView)) {
+    var newHtmlFile = mustache.render(templateHtml, value);
+    var name = key.charAt(0).toUpperCase() + key.slice(1);
+    fs.writeFile(config.htmlFilePath + 'sprite' + name + '.html', newHtmlFile, function(err) {
+        if (err) {
+            return console.log(err);
+        }
+        console.log(key + ' sprite html file was saved!');
+    });
+}
+
+
