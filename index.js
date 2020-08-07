@@ -125,7 +125,6 @@ fs.readdirSync(config.svgFolder).forEach(function(file, index) {
     itemScss.width = sizes.width;
     itemScss.height = sizes.height;
     itemScss.fileName = file;
-    itemScss.paths = data.match(/\<svg(.+?)\>(.+?)\</)[2];
     if (data.split('<path').length - 1 === 1) {
         itemScss.inline = data.match(/d=\"(.+?)\"/)[1];
     } else {
